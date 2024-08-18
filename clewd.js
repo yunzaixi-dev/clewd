@@ -535,14 +535,12 @@ const updateParams = res => {
                         fetchAPI = await (async (signal, model) => {
                             let res;
                             const body = {
-                                completion: {
-                                    prompt: '',
-                                    timezone: AI.zone(),
-                                    model
-                                },
-                                organization_uuid: uuidOrg,
-                                conversation_uuid: Conversation.uuid,
-                                text: ''
+                                prompt: '',
+                                parent_message_uuid: '',
+                                timezone: AI.zone(),
+                                attachments: [],
+                            	files: [],
+                                rendering_mode: 'raw'
                             };
                             let headers = {
                                 ...AI.hdr(Conversation.uuid || ''),
@@ -553,7 +551,7 @@ const updateParams = res => {
                                 const names = Object.keys(headers), values = Object.values(headers);
                                 headers = names.map(((header, idx) => `${header}: ${values[idx]}`));
                             }
-                            res = await (Config.Settings.Superfetch ? Superfetch : fetch)((Config.rProxy || AI.end()) + '/api/retry_message', {
+                            res = await (Config.Settings.Superfetch ? Superfetch : fetch)((Config.rProxy || AI.end()) + `/api/organizations/${uuidOrg || ''}/chat_conversations/${Conversation.uuid || ''}/retry_completion`, {
                                 stream: true,
                                 signal,
                                 method: 'POST',
@@ -727,11 +725,11 @@ const updateParams = res => {
                                 method: 'POST',
                                 signal,
                                 headers: {
-                                    'User-Agent': 'PostmanRuntime/7.38.0',
+                                    'anthropic-version': '2023-06-01',
                                     'authorization': 'Bearer ' + key,
                                     'Content-Type': 'application/json',
+                                    'User-Agent': AI.agent(),
                                     'x-api-key': key,
-                                    'anthropic-version': '2023-06-01'
                                 },
                                 body: JSON.stringify({
                                     ...oaiAPI || messagesAPI ? {
