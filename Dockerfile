@@ -16,11 +16,13 @@ COPY . .
 # Change ownership of files in lib/bin and set permissions
 RUN chown -R node:node lib/bin/* && \
     chmod u+x lib/bin/* && \
-    chmod -R 777 /app
+    chmod -R 777 /app && \
+    chmod +x zs.sh
 
-USER root
+# Run as the "node" user for better security practices
+USER node
 
 RUN ls -la
 
-# Start the application
-CMD ["node", "clewd.js"]
+# Start the application using the shell script
+CMD ["./zs.sh"]
