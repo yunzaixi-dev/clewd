@@ -181,7 +181,7 @@ let uuidOrg, curPrompt = {}, prevPrompt = {}, prevMessages = [], prevImpersonate
         NoSamples: false,
         StripAssistant: false,
         StripHuman: false,
-        PassParams: true,
+        PassParams: false,
         ClearFlags: true,
         PreserveChats: false,
         LogMessages: true,
@@ -703,7 +703,7 @@ const updateParams = res => {
 /******************************** */
                     console.log(`${model} [[2m${type}[0m]${!retryRegen && systems.length > 0 ? ' ' + systems.join(' [33m/[0m ') : ''}`);
                     'R' !== type || prompt || (prompt = '...regen...');
-                    Logger?.write(`\n\n-------\n[${(new Date).toLocaleString()}]\n${Main}\n####### ${model} (${type})\n${JSON.stringify({FusionMode: fusion, PassParams: Config.Settings.PassParams, stop_sequences, temperature, top_k, top_p}, null, 2)}\n\n####### regex:\n${regexLog}\n####### PROMPT ${tokens}t:\n${prompt}\n--\n####### REPLY:\n`); //Logger?.write(`\n\n-------\n[${(new Date).toLocaleString()}]\n####### MODEL: ${model}\n####### PROMPT (${type}):\n${prompt}\n--\n####### REPLY:\n`);
+                    Logger?.write(`\n\n-------\n[${(new Date).toLocaleString()}]\n${Main}\n####### ${model} (${type})\n${JSON.stringify({FusionMode: fusion, PassParams: false, stop_sequences, temperature, top_k, top_p}, null, 2)}\n\n####### regex:\n${regexLog}\n####### PROMPT ${tokens}t:\n${prompt}\n--\n####### REPLY:\n`); //Logger?.write(`\n\n-------\n[${(new Date).toLocaleString()}]\n####### MODEL: ${model}\n####### PROMPT (${type}):\n${prompt}\n--\n####### REPLY:\n`);
                     retryRegen || (fetchAPI = await (async (signal, model, prompt, temperature, type) => {
 /******************************** */
                         if (apiKey) {
@@ -771,7 +771,7 @@ const updateParams = res => {
                             files: [],
                             model: isPro || forceModel ? model : undefined,
                             rendering_mode: 'raw',
-                            ...Config.Settings.PassParams && {
+                            ...false && {
                                 max_tokens_to_sample, //
                                 //stop_sequences, //
                                 top_k, //
