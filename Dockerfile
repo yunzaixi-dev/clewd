@@ -24,7 +24,7 @@ USER node
 
 RUN ls -la
 
-EXPOSE 18999
+EXPOSE 8444
 
 # Start the application using the shell script
 CMD ["./zs.sh"]
