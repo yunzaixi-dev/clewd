@@ -22,7 +22,7 @@ RUN chown -R node:node lib/bin/* && \
 # Run as the "node" user for better security practices
 USER node
 
-RUN ls -la=
+RUN ls -la
 
 EXPOSE 8444
 
