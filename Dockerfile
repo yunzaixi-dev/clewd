@@ -1,30 +1,26 @@
-# Use the official Node.js image as the base image
-FROM node:20.4
+# 使用我们的基础镜像
+FROM clewd-base:latest
 
-# Set the working directory in the container
+# 设置工作目录
 WORKDIR /app
 
-# Copy the package.json and package-lock.json files to the container
-COPY package*.json ./
-
-# Install the dependencies
-RUN npm install --no-audit --fund false
-
-# Copy the rest of the files to the container
+# 复制项目文件
 COPY . .
 
-# Change ownership of files in lib/bin and set permissions
+# 权限设置
 RUN chown -R node:node lib/bin/* && \
     chmod u+x lib/bin/* && \
     chmod -R 777 /app && \
     chmod +x zs.sh
 
-# Run as the "node" user for better security practices
+# 使用node用户
 USER node
 
+# 显示文件列表（调试用）
 RUN ls -la
 
+# 暴露端口
 EXPOSE 8444
 
-# Start the application using the shell script
+# 启动应用
 CMD ["./zs.sh"]

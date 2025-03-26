@@ -1,0 +1,14 @@
+# 使用Node.js 20.4作为基础镜像
+FROM node:20.4
+
+# 设置工作目录
+WORKDIR /app
+
+# 只复制依赖相关文件
+COPY package*.json ./
+
+# 安装依赖
+RUN npm install --no-audit --fund false
+
+# 这是一个基础镜像，不需要运行任何命令
+CMD ["echo", "This is a base image for clewd application"]
