@@ -1,5 +1,5 @@
 # 使用我们的基础镜像
-FROM clewd-base:latest
+FROM yunzaixi4/clewd-base:latest
 
 # 设置工作目录
 WORKDIR /app
